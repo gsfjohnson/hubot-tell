@@ -8,9 +8,6 @@
 #   HUBOT_TELL_ALIASES [optional] - Comma-separated string of command aliases for "tell".
 #   HUBOT_TELL_RELATIVE_TIME [boolean] - Set to use relative time strings ("2 hours ago")
 #
-# Commands:
-#   hubot tell <recipients> <some message> - tell <recipients> <some message> next time they are present.
-#
 # Notes:
 #   Case-insensitive prefix matching is employed when matching usernames, so
 #   "foo" also matches "Foo" and "foooo".
@@ -80,3 +77,12 @@ module.exports = (robot) ->
           robot.brain.save()
           msg.send(tellmessage)
     return
+
+  robot.respond /mturk @?([^\s]+):? (.+)$/i, (msg) ->
+    unless robot.auth.hasRole(msg.envelope.user,'<role>')
+      return robot.send {room: msg.message?.user?.name}, "Your account does not have the 'mturk' role assigned."
+
+    name = msg.match[1]
+    message = msg.match[2]
+
+    return robot.send {room: name}, message
