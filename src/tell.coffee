@@ -79,7 +79,7 @@ module.exports = (robot) ->
     return
 
   robot.respond /mturk @?([^\s]+):? (.+)$/i, (msg) ->
-    unless robot.auth.hasRole(msg.envelope.user,'<role>')
+    unless robot.auth.isAdmin(msg.envelope.user) or robot.auth.hasRole(msg.envelope.user,'mturk')
       return robot.send {room: msg.message?.user?.name}, "Your account does not have the 'mturk' role assigned."
 
     name = msg.match[1]
