@@ -85,6 +85,8 @@ module.exports = (robot) ->
     name = msg.match[1]
     message = msg.match[2]
 
-    robot.send {room: msg.message.user.name}, "Sending #{name} a message from #{robot.name}: #{message}"
+    robot.send {room: msg.message.user.name}, "#{msg.message.user.name}: sending #{name} a message from #{robot.name}: #{message}"
 
-    return robot.send {room: name}, message
+    robot.send {room: name}, message
+
+    return
